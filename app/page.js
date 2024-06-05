@@ -53,7 +53,7 @@ Start Here
         Learn More About Us
       </h2>
       <div className="flex justify-center">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/fjHO4fAfCf0?si=K0vQ_uJsLQKd2qok" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/fjHO4fAfCf0?si=K0vQ_uJsLQKd2qok" title="YouTube video player"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
       </div>
     </div>
     
