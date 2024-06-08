@@ -1,7 +1,18 @@
 import NextAuth from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
+import EmailProvider from 'next-auth/providers/email';
+import nodemailer from 'nodemailer';
 import User from '../../../models/User';
 import connectDB from '../../../db/connectDB';
+
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_SERVER_HOST,
+  port: process.env.EMAIL_SERVER_PORT,
+  auth: {
+    user: process.env.EMAIL_SERVER_USER,
+    pass: process.env.EMAIL_SERVER_PASSWORD,
+  },
+});
 
 const handler = NextAuth({
   providers: [
@@ -12,6 +23,17 @@ const handler = NextAuth({
         params: { scope: 'read:user user:email' },
       },
     }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
@@ -20,7 +42,7 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       await connectDB();
-      
+
       console.log("SignIn Callback:");
       console.log("Email:", email);
       console.log("Profile:", profile);

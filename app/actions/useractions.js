@@ -7,7 +7,12 @@ import User from "../models/User"
 
 export const initiate = async (amount, to_username, paymentform) => {
     await connectDB()
-    var instance = new Razorpay({ key_id: process.env.NEXT_PUBLIC_KEY_ID, key_secret: process.env.KEY_SECRET })
+
+    // fetch the secret of the user who is getting the payment 
+    let user = await User.findOne({ username: to_username })
+    const secret = user.razorpaysecret
+    
+    var instance = new Razorpay({ key_id: user.razorpayid, key_secret: secret })
 
     instance.orders.create({
         amount: 50000,
@@ -56,7 +61,11 @@ export const updateProfile = async (data,oldusername)=>{
         if (u) {
             return {error:"Username already exists"}
         }
+        await User.updateOne({email:ndata.email},ndata)
+        // now update all the usernames in the payments table
+        await Payment.updateMany({to_user:oldusername},{to_user:ndata.username})
     }
-
+    else{
     await User.updateOne({email:ndata.email},ndata)
+    }
 }

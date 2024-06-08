@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { ToastContainer, toast ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { notFound } from "next/navigation"
+
 
 const PaymentPage = ({ username }) => {
     const [paymentform, setPaymentform] = useState({});
@@ -98,6 +100,8 @@ const PaymentPage = ({ username }) => {
         rzp1.open();
     };
 
+    
+
     return (
         <>
             {/* toast container for react */}
@@ -135,13 +139,14 @@ const PaymentPage = ({ username }) => {
                 <div className='info flex justify-center items-center my-8 flex-col'>
                     <div>@{username}</div>
                     <div className='font-bold text-lg'>
-                        CREATING ANIMATED ART FOR VTT'S
+                        Let's get some chai for {username}
                     </div>
                     <div className='text-slate-600 flex space-x-2'>
                         <p>{getRandomFloat()} members,</p>
                         <p>{getRandomFloat()} posts,</p>
                         <p>{getRandomFloat()} solutions</p>
                     </div>
+                    <p>{payments.length} Payments. {currentUser.name} has raised ₹{payments.reeduce((a,b)=>a+b.amount,0)} </p>
                 </div>
 
                 <div className='payment flex justify-center gap-3 mt-11'>
@@ -198,7 +203,7 @@ const PaymentPage = ({ username }) => {
                                 onClick={() => pay(Number(paymentform.amount) * 100)}
                                 type="button"
                                 className="text-white w-32 bg-gradient-to-br from-purple-900 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2
-                            disabled:from-purple-200" disabled={!paymentform.name || !paymentform.message}
+                            disabled:from-purple-200" disabled={!paymentform.name || !paymentform.message || paymentform.amount?.length<1}
                             >
                                 Pay Now!
                             </button>
