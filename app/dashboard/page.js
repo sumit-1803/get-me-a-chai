@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { getSession } from 'next-auth/react'; // Import getSession directly
-import { useLastNavigation } from 'next/navigation'; // Import useLastNavigation for client-side navigation
+import { useRouter } from 'next/navigation'; // Import useLastNavigation for client-side navigation
 
 
 const Dashboard = () => {
