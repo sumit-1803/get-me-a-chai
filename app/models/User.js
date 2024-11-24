@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 import Email from "next-auth/providers/email";
+import { unique } from "next/dist/build/utils";
 const {Schema , model } = mongoose;
 
 const UserSchema = new Schema({
-    email:{type:String , required:true},
+    email:{type:String , required:true , unique:true},
     name:{type:String },
     username:{type:String },
-    profilepic:{type:String},
-    coverpic:{type:String},
-    razorpayid: { type: String },
-    razorpaysecret: { type: String },
+    profilePicture:{type:String},
+    coverPicture:{type:String},
+    razorpayId: { type: String },
+    razorpaySecret: { type: String },
     providers: { type: [String], default: [] }, // Track linked providers
     createdAt:{type:Date , default:Date.now},
     updatedAt:{type:Date , default:Date.now},
