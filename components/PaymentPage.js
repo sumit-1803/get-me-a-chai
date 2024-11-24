@@ -8,7 +8,6 @@ import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { ToastContainer, toast ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { notFound } from "next/navigation"
 
 
 const PaymentPage = ({ username }) => {
@@ -123,9 +122,9 @@ const PaymentPage = ({ username }) => {
             {/* cover pic and profile pic */}
 
             <div className='cover w-full bg-red-50 relative'>
-                <img className='object-cover w-full h-[350] shadow-blue-700 shadow-sm ' src={currentUser.coverpic} ></img>
+                <img className='object-cover max-h-96 w-full h-[350] shadow-blue-700 shadow-sm ' src={currentUser.image} ></img>
                 <div className='absolute -bottom-20 right-[46%] overflow-hidden border-white border-2 rounded-full size-32'>
-                    <img className='rounded-full size-32' width={128} height={128} src={currentUser.profilepic}></img>
+                    <img className='rounded-full size-32' width={128} height={128} src={currentUser.image}></img>
                 </div>
 
             </div>
@@ -137,16 +136,16 @@ const PaymentPage = ({ username }) => {
                 </h1>
 
                 <div className='info flex justify-center items-center my-8 flex-col'>
-                    <div>@{username}</div>
+                    <div>@{currentUser.username}</div>
                     <div className='font-bold text-lg'>
-                        Let's get some chai for {username}
+                        Let's get some chai for {currentUser.name}
                     </div>
                     <div className='text-slate-600 flex space-x-2'>
                         <p>{getRandomFloat()} members,</p>
                         <p>{getRandomFloat()} posts,</p>
                         <p>{getRandomFloat()} solutions</p>
                     </div>
-                    <p>{payments.length} Payments. {currentUser.name} has raised ₹{payments.reeduce((a,b)=>a+b.amount,0)} </p>
+                    <p>{payments.length} Payments. {currentUser.name} has raised ₹{payments.reduce((a,b)=>a+b.amount,0)} </p>
                 </div>
 
                 <div className='payment flex justify-center gap-3 mt-11'>

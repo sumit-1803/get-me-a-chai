@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
+import Link from 'next/link'
 
 const Navbar = () => {
   const { data: session, status } = useSession()
@@ -16,7 +16,7 @@ const Navbar = () => {
     return null
   }
 
-  return (
+  return (  
     <nav className='bg-indigo-800 z-50 fixed top-0 w-full text-white flex justify-between px-4 h-16 items-center'>
       <div>
         <Link className='logo font-bold text-lg flex justify-center items-center' href={"/"}>

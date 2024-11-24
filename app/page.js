@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
     <div className="flex justify-center flex-col items-center gap-4 text-white h-[44vh]">
-      <div className="font-bold flex gap-2 text-5xl items-center justify-center">Buy Me a Chai <span ><img className="invertImg" width={80} src="https://media2.giphy.com/media/KanTM1jNrX  7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s" alt="not loading" /> </span></div>
+      <div className="font-bold flex gap-2 text-5xl items-center justify-center">Buy Me a Chai <span ><img className="invertImg" width={80} src="https://media2.giphy.com/media/KanTM1jNrX7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s" alt="not loading" /> </span></div>
       <p>
         A Crowd Funding Platform for Developers . 
         Get Funded by Your Fans and Followers. Start Now!
