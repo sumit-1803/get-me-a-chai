@@ -12,9 +12,9 @@ const Navbar = () => {
     setIsClient(true)
   }, [])
 
-  if (!isClient) {
-    return null
-  }
+  // if (!isClient) {
+  //   return null
+  // }
 
   return (  
     <nav className='bg-indigo-800 z-50 fixed top-0 w-full text-white flex justify-between px-4 h-16 items-center'>

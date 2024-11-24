@@ -122,7 +122,7 @@ const PaymentPage = ({ username }) => {
             {/* cover pic and profile pic */}
 
             <div className='cover w-full bg-red-50 relative'>
-                <img className='object-cover max-h-96 w-full h-[350] shadow-blue-700 shadow-sm ' src={currentUser.image} ></img>
+                <img className='object-cover max-h-64 w-full  shadow-blue-700 shadow-sm ' src="https://plus.unsplash.com/premium_photo-1673177667569-e3321a8d8256?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y292ZXIlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D" ></img>
                 <div className='absolute -bottom-20 right-[46%] overflow-hidden border-white border-2 rounded-full size-32'>
                     <img className='rounded-full size-32' width={128} height={128} src={currentUser.image}></img>
                 </div>
@@ -130,7 +130,7 @@ const PaymentPage = ({ username }) => {
             </div>
 
 
-            <div className='container mx-auto py-14'>
+            <div className='container mx-auto mt-14 py-14'>
                 <h1 className='text-center font-bold text-3xl'>
                     Payment Page for {username}
                 </h1>
