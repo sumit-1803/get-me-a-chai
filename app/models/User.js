@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import Email from "next-auth/providers/email";
-import { unique } from "next/dist/build/utils";
 const {Schema , model } = mongoose;
 
 const UserSchema = new Schema({

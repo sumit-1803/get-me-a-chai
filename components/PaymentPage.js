@@ -74,7 +74,7 @@ const PaymentPage = ({ username }) => {
             "key": currentUser.razorpayid,
             "amount": amount,
             "currency": 'INR',
-            "name": 'Get Me a CHai',
+            "name": 'DevSponsor',
             "description": 'Test Transaction',
             "order_id": orderId,
             "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
@@ -138,7 +138,7 @@ const PaymentPage = ({ username }) => {
                 <div className='info flex justify-center items-center my-8 flex-col'>
                     <div>@{currentUser.username}</div>
                     <div className='font-bold text-lg'>
-                        Let's get some chai for {currentUser.name}
+                        Let&apos;s get some chai for {currentUser.name}
                     </div>
                     <div className='text-slate-600 flex space-x-2'>
                         <p>{getRandomFloat()} members,</p>
@@ -158,7 +158,7 @@ const PaymentPage = ({ username }) => {
                                     <img width={33} src='https://img.icons8.com/?size=100&id=HmQQr0jYHZxu&format=png&color=000000' alt='user avatar' />
                                     <span>
                                         {payment.name} donated
-                                        <span className='font-bold'>${payment.amount}</span> with a message "{payment.message}"
+                                        <span className='font-bold'>${payment.amount}</span> with a message &quot;{payment.message}&quot;
                                     </span>
                                 </li>
                             ))}

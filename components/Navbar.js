@@ -21,7 +21,7 @@ const Navbar = () => {
       <div>
         <Link className='logo font-bold text-lg flex justify-center items-center' href={"/"}>
           <img src='https://media2.giphy.com/media/KanTM1jNrX7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s' width={50} alt=''/>
-          <span>Get-Me-a-Chai!</span>
+          <span className='ml-2'>DevSponsor</span>
         </Link>
       </div>
       <div className='relative'>
