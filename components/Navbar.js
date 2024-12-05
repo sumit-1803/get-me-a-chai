@@ -2,25 +2,31 @@
 import React, { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from 'next/link'
+import { usePathname } from 'next/navigation';  // Use this instead of useRouter
 
 const Navbar = () => {
-  const { data: session, status } = useSession()
-  const [isClient, setIsClient] = useState(false)
-  const [showDropdown, setShowDropdown] = useState(false)
+  const { data: session } = useSession();
+  const [isClient, setIsClient] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  
+  const pathname = usePathname();  // Using usePathname to get the pathname
 
+  // This ensures we're only working with client-side data
   useEffect(() => {
-    setIsClient(true)
-  }, [])
+    setIsClient(true);
+  }, []);
 
-  // if (!isClient) {
-  //   return null
-  // }
+  if (!isClient) {
+    return null;  // Prevent rendering during SSR (Server-Side Rendering)
+  }
 
-  return (  
+  console.log(pathname); // This should now log the correct pathname
+
+  return (
     <nav className='bg-indigo-800 z-50 fixed top-0 w-full text-white flex justify-between px-4 h-16 items-center'>
       <div>
         <Link className='logo font-bold text-lg flex justify-center items-center' href={"/"}>
-          <img src='https://media2.giphy.com/media/KanTM1jNrX7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s' width={50} alt=''/>
+          <img src='https://media2.giphy.com/media/KanTM1jNrX7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s' width={50} alt='' />
           <span className='ml-2'>DevSponsor</span>
         </Link>
       </div>
@@ -54,17 +60,19 @@ const Navbar = () => {
             </div>
           </>
         ) : (
-          <Link href={"/login"} >
-            <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-              <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                login 
-              </span>
-            </button>
-          </Link>
+          pathname !== '/login' && (
+            <Link href={"/login"}>
+              <button className="relative mt-2 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                <span className="relative px-2.5 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                  login
+                </span>
+              </button>
+            </Link>
+          )
         )}
       </div>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
