@@ -28,6 +28,7 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       toast.success('Login successful!'); // Show success toast
       router.push('/dashboard'); // Redirect to dashboard after successful login
+      window.location.reload();
     } else {
       setError(data.message);
       toast.error(`Error: ${data.message}`); // Show error toast
@@ -55,7 +56,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 text-black border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="mb-6">
@@ -68,7 +69,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 text-black border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <button
