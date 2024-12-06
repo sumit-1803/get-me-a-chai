@@ -15,7 +15,7 @@ export default function ErrorPage() {
     <div style={{ padding: '2rem', textAlign: 'center' }}>
       <h1>Authentication Error</h1>
       <p>{errorMessages[error] || 'An unknown error occurred.'}</p>
-      <a href="/api/auth/signin" style={{ color: 'blue' }}>Go back to Sign In</a>
+      {/* <a href="/api/auth/signin" style={{ color: 'blue' }}>Go back to Sign In</a> */}
     </div>
   );
 }

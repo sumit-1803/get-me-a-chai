@@ -224,7 +224,7 @@ const PaymentPage = ({ username }) => {
                         <div className="info flex justify-center items-center my-8 flex-col">
                             <div>@{currentUser?.username}</div>
                             <div className="font-bold text-lg">
-                                Let's get some chai for {currentUser?.name}
+                                Let&apos;s get some chai for {currentUser?.name}
                             </div>
                             <div className="text-slate-600 flex space-x-2">
                                 <p>{getRandomFloat()} members,</p>
