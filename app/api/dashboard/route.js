@@ -1,45 +1,83 @@
 import dbConnect from '../../db/connectDB'; // Utility function to connect to MongoDB
-import Dashboard from '../../models/Dashboard'; // Import the Dashboard model
+import User from '../../models/User'; // Import the User model
 import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken'; 
 
 // Connect to the database before handling requests
 dbConnect();
 
+const JWT_SECRET = process.env.JWT_SECRET; 
+
 export async function GET(req) {
   try {
-    // Find the dashboard (this will not check if the user is authenticated)
-    const dashboard = await Dashboard.findOne();
+    // Get the token directly from the Authorization header
+    const authHeader = req.headers.get('authorization');
 
-    if (!dashboard) {
-      return NextResponse.json({ message: 'Dashboard not found' }, { status: 404 });
+    if (!authHeader) {
+      console.error('Authorization token is missing.');
+      return NextResponse.json({ message: 'Authorization token is missing' }, { status: 401 });
     }
 
-    return NextResponse.json(dashboard, { status: 200 });
+    // Remove the "Bearer " prefix if present
+    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+
+    // Decode the token to extract the email
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    if (!decoded || !decoded.email) {
+      console.error('Invalid or malformed token.');
+      return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+    }
+
+    const email = decoded.email;
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    // Return only the fields needed for the dashboard
+    const { name, username, profilePicture, coverPicture, razorpayId, razorpaySecret } = user;
+    return NextResponse.json({ name, email, username, profilePicture, coverPicture, razorpayId, razorpaySecret }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching dashboard:', error);
+    console.error('Error fetching user data:', error.message);
     return NextResponse.json({ message: 'Server error', error: error.message }, { status: 500 });
   }
 }
+
 
 export async function POST(req) {
   try {
-    const { name, email, username, profilePicture, coverPicture, razorpayId, razorpaySecret } = await req.json();
+    const { email, name, username, profilePicture, coverPicture, razorpayId, razorpaySecret } = await req.json();
 
-    // Log the received body to verify the input data
-    console.log('Request body:', req.body);
+    if (!email) {
+      return NextResponse.json({ message: 'Email is required' }, { status: 400 });
+    }
 
-    // Create or update the dashboard (no session needed)
-    const dashboard = await Dashboard.findOneAndUpdate(
-      {}, // No user check, this will update the first dashboard found or create one
-      { name, email, username, profilePicture, coverPicture, razorpayId, razorpaySecret },
-      { new: true, upsert: true } // Create if it doesn't exist, otherwise update
+    // Update the user document with the new dashboard details
+    const user = await User.findOneAndUpdate(
+      { email }, // Match by email
+      {
+        name,
+        username,
+        profilePicture,
+        coverPicture,
+        razorpayId,
+        razorpaySecret,
+      },
+      { new: true } // Return the updated document
     );
 
-    console.log('Dashboard after save:', dashboard); // Log the updated dashboard
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
 
-    return NextResponse.json(dashboard, { status: 200 });
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    console.error('Error creating/updating dashboard:', error);
+    console.error('Error updating user data:', error);
     return NextResponse.json({ message: 'Server error', error: error.message }, { status: 500 });
   }
 }
+
+

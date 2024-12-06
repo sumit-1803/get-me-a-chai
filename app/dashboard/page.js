@@ -1,6 +1,8 @@
 "use client";
-import { getSession } from 'next-auth/react';
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast , ToastContainer } from 'react-toastify'; // Import toast from react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
+
 
 const Dashboard = () => {
   const [formData, setFormData] = useState({
@@ -13,39 +15,43 @@ const Dashboard = () => {
     razorpaySecret: ''
   });
 
-// Fetch existing data when the component mounts
-useEffect(() => {
-  const fetchData = async () => {
-    const session = await getSession();
-    if (!session) {
-      alert('You need to log in first.');
-      return;
-    }
+  // Fetch existing data when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      // Get the JWT token from localStorage or cookies
+      const token = localStorage.getItem('token');  // Or from cookies: document.cookie
 
-    const userId = session.user.id;
+      if (!token) {
+        alert('You need to log in first.');
+        return;
+      }
 
-    // GET request to fetch existing dashboard data
-    const response = await fetch(`/api/dashboard?userId=${userId}`);
-    const data = await response.json();
-
-    if (response.ok) {
-      setFormData({
-        name: data.name || '',
-        email: data.email || '',
-        username: data.username || '',
-        profilePicture: data.profilePicture || '',
-        coverPicture: data.coverPicture || '',
-        razorpayId: data.razorpayId || '',
-        razorpaySecret: data.razorpaySecret || ''
+      // Make a GET request to fetch existing dashboard data
+      const response = await fetch('/api/dashboard', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
-    } else {
-      alert(data.message || 'Error fetching dashboard details');
-    }
-  };
+      const data = await response.json();
 
-  fetchData();
-}, []); // Empty dependency array ensures this runs only once on component mount
+      if (response.ok) {
+        setFormData({
+          name: data.name || '',
+          email: data.email || '',
+          username: data.username || '',
+          profilePicture: data.profilePicture || '',
+          coverPicture: data.coverPicture || '',
+          razorpayId: data.razorpayId || '',
+          razorpaySecret: data.razorpaySecret || ''
+        });
+      } else {
+        alert(data.message || 'Error fetching dashboard details');
+      }
+    };
 
+    fetchData();
+  }, []); // Empty dependency array ensures this runs only once on component mount
 
   // Update form state when input changes
   const handleInputChange = (e) => {
@@ -59,19 +65,21 @@ useEffect(() => {
   // Handle form submission
   const handleSave = async (e) => {
     e.preventDefault();
-    const session = await getSession();
-    if (!session) {
+    
+    // Get the JWT token from localStorage or cookies
+    const token = localStorage.getItem('token');  // Or from cookies: document.cookie
+
+    if (!token) {
       alert('You need to log in first.');
       return;
     }
-
-    const userId = session.user.id;
 
     // POST request to save dashboard details
     const response = await fetch('/api/dashboard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
         ...formData,
@@ -81,15 +89,15 @@ useEffect(() => {
     const result = await response.json();
 
     if (response.ok) {
-      alert('Details saved successfully');
+      // Display a toast notification
+      toast.success('Details saved successfully');
     } else {
       alert(result.message || 'Error saving details');
     }
   };
 
-
   return (
-    <div className="container mx-auto py-5">
+    <div className="animate-fadeIn container mx-auto py-5">
       <h1 className="text-center my-5 text-3xl font-bold">Welcome to Your Dashboard!</h1>
 
       <form className="max-w-2xl mx-auto" onSubmit={handleSave}>
@@ -108,6 +116,7 @@ useEffect(() => {
           <input
             type="email"
             id="email"
+            disabled={true}
             value={formData.email}
             onChange={handleInputChange}
             className="block w-full px-3 py-2 text-gray-900 bg-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -164,9 +173,10 @@ useEffect(() => {
           />
         </div>
         <div className="my-2">
-          <button type="submit" className="block w-full px-3 py-2 text-white bg-blue-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Save</button>
+          <button type="submit" className="block w-full px-3 py-2 text-white bg-[#3730a3] mt-8 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Save</button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

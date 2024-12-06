@@ -18,15 +18,30 @@ export default function Home() {
             </button>
           </Link>
           <Link href={"/about"}>
-            <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Read More...</button>
+            <button
+              type="button"
+              className="text-black bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 border-2 border-gray-800"
+            >
+              Read More...
+            </button>
           </Link>
         </div>
       </div>
       <div className="bg-white h-1 opacity-10"></div>
 
+      {/* New Section for All Users */}
+      <div className="text-center py-32  text-white">
+        <h2 className="text-3xl font-bold mb-8">Meet All Our Users</h2>
+        <p className="mb-4">Explore our community of passionate developers and see how they are getting funded by their fans.</p>
+        <Link href="/allUsers">
+          <button className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 border-2 border-gray-800">
+            View All Users
+          </button>
+        </Link>
+      </div>
+      <div className="bg-white h-1 opacity-10"></div>
 
-
-      {/* New Content Starts */}
+      {/* Existing Content */}
       <div className="animate-fadeIn text-white container mx-auto py-32">
         <h2 className="text-3xl font-bold text-center mb-14">
           Your Fans Can sponsor you on DevSponsor
@@ -65,10 +80,9 @@ export default function Home() {
         </div>
       </div>
 
-
       <div className="bg-white h-1 opacity-10"></div>
 
-      {/* New Content Starts */}
+      {/* More Content */}
       <div className="text-white container mx-auto py-32 flex flex-col">
         <h2 className="text-3xl font-bold text-center mb-14 ">
           Learn More About Us
@@ -77,9 +91,6 @@ export default function Home() {
           <iframe width="560" height="315" src="https://www.youtube.com/embed/fjHO4fAfCf0?si=K0vQ_uJsLQKd2qok" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>
       </div>
-
-
-
     </>
   );
 }
