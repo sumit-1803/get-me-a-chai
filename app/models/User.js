@@ -10,6 +10,8 @@ const UserSchema = new Schema({
     coverPicture:{type:String},
     razorpayId: { type: String },
     razorpaySecret: { type: String },
+    numOfPayments : {type:Number , default:0},
+    raisedMoney : {type:Number , default:0},
     providers: { type: [String], default: [] }, // Track linked providers
     createdAt:{type:Date , default:Date.now},
     updatedAt:{type:Date , default:Date.now},

@@ -7,12 +7,16 @@ import { fetchuser, fetchpayments, initiate } from '../app/actions/useractions';
 import { useSearchParams } from 'next/navigation';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import connectDB from '../app/db/connectDB';
 
 const PaymentPage = ({ username }) => {
     const [paymentform, setPaymentform] = useState({});
     const [currentUser, setcurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [payments, setpayments] = useState([]);
     const searchParams = useSearchParams();
+
+    connectDB();
 
     useEffect(() => {
         getData();
@@ -38,16 +42,20 @@ const PaymentPage = ({ username }) => {
         setPaymentform({ ...paymentform, [e.target.name]: e.target.value });
     };
 
-    const getRandomFloat = () => {
-        return Math.floor(Math.random() * (1000 - 1) + 1);
-    };
-
     const getData = async () => {
         try {
             // Fetch user details from the API using the username
             const response = await fetch(`/api/profile?username=${username}`, {
                 method: 'GET',
             });
+
+            if (response.status === 404) {
+                setcurrentUser(undefined); 
+                setLoading(false);
+                return;
+            }
+
+            
 
             // Check if the response is OK
             if (!response.ok) {
@@ -58,7 +66,10 @@ const PaymentPage = ({ username }) => {
             const userData = await response.json();
 
             // Update the state with the user data
-            setcurrentUser(userData);
+            if( response.status === 200){
+                setLoading(false);
+                setcurrentUser(userData);
+            }
             setPaymentform((prevState) => ({
                 ...prevState,
                 name: userData.name,
@@ -71,8 +82,7 @@ const PaymentPage = ({ username }) => {
             const dbpayments = await fetchpayments(username);
             setpayments(dbpayments);
 
-            // Log the data for debugging purposes
-            // console.log(userData, dbpayments);
+            
         } catch (error) {
             // Handle any errors that occur during the fetch process
             console.error('Error fetching data:', error);
@@ -95,7 +105,6 @@ const PaymentPage = ({ username }) => {
 
     const handlePayment = async () => {
         try {
-            // Ensure amount is properly initialized
             const amount = parseFloat(paymentform.amount) * 100; // Convert to paise (100 paise = 1 INR)
             const userId = currentUser._id; // Assuming currentUser has _id
             const orderDetails = {
@@ -103,7 +112,6 @@ const PaymentPage = ({ username }) => {
                 userId: userId,
             };
 
-            // Create Razorpay order on the frontend (no backend needed)
             const response = await fetch('/api/create-order', {
                 method: 'POST',
                 headers: {
@@ -117,29 +125,57 @@ const PaymentPage = ({ username }) => {
             }
 
             const orderData = await response.json();
-            const { id, amount: orderAmount, currency } = orderData; // Renamed variable to avoid shadowing
+            const { id, amount: orderAmount, currency } = orderData;
 
-            // Initialize Razorpay checkout
             const options = {
-                key: process.env.RAZORPAY_KEY_ID, // Your Razorpay key ID from environment variables
-                amount: orderAmount, // Use the amount returned from the backend
-                currency: "INR", // Ensure this is INR
+                key: process.env.RAZORPAY_KEY_ID,
+                amount: orderAmount,
+                currency: "INR",
                 order_id: id,
                 name: currentUser.name,
-                description: 'Payment for Dev', // Dynamic description
+                description: 'Payment for Dev',
                 image: currentUser.profilePicture,
-                handler: function (response) {
-                    // Handle success response
-                    toast.success('Payment successful!', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                handler: async function (paymentResponse) {
+                    try {
+                        // Payment success handler
+                        toast.success('Payment successful!', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+
+                        const paymentDetails = {
+                            username: currentUser.username,
+                            paymentStatus: 'success',
+                            lastPaymentDate: new Date().toISOString(),
+                            amountPaid: paymentform.amount,
+                        };
+
+                        const updateUserResponse = await fetch(`/api/update-payment`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(paymentDetails),
+                        });
+
+                        if (!updateUserResponse.ok) {
+                            throw new Error('Failed to update user data');
+                        }
+
+                        const updateData = await updateUserResponse.json();
+                        console.log('User data updated:', updateData);
+
+                        router.push('/success-page');  // Optionally redirect after success
+                    } catch (error) {
+                        console.error("Error updating user data:", error);
+                        toast.error('Error updating user data!');
+                    }
                 },
                 prefill: {
                     name: paymentform.name,
@@ -163,6 +199,7 @@ const PaymentPage = ({ username }) => {
         }
     };
 
+
     const router = useRouter();
 
     return (
@@ -182,10 +219,9 @@ const PaymentPage = ({ username }) => {
             />
 
             {/* Conditional rendering based on `currentUser.username` */}
-            {currentUser === null ? (
-                <div>Loading...</div> // Render a loading spinner or placeholder
-            ) : currentUser.username === undefined ? (
-                // Render 404 message
+            {loading ? (
+                <div>Loading...</div> // Show loading until the data is fetched or errors occur
+            ) : currentUser === undefined ? (
                 <div className="flex flex-col items-center mt-10 p-6 rounded-xl shadow-md">
                     <img
                         src="https://img.freepik.com/free-vector/404-error-page-found_24908-59520.jpg"
@@ -225,20 +261,20 @@ const PaymentPage = ({ username }) => {
                         <div className="info flex justify-center items-center my-8 flex-col">
                             <div>@{currentUser?.username}</div>
                             <div className="font-bold text-lg">
-                                Let&apos;s get some chai for {currentUser?.name}
+                                Let&apos;s show some support for {currentUser?.name}
                             </div>
-                            <div className="text-slate-600 flex space-x-2">
-                                <p>{getRandomFloat()} members,</p>
-                                <p>{getRandomFloat()} posts,</p>
-                                <p>{getRandomFloat()} solutions</p>
-                            </div>
-                            <p>{payments.length} Payments. {currentUser?.name} has raised ₹{payments.reduce((a, b) => a + b.amount, 0)}</p>
+                            {/* <div className="text-slate-600 flex space-x-2">
+                                <p>{0} members,</p>
+                                <p>{0} posts,</p>
+                                <p>{0} solutions</p>
+                            </div> */}
+                            <p>{currentUser.numOfPayments} Payments. {currentUser?.name} has raised ₹{currentUser.raisedMoney}</p>
                         </div>
 
                         <div className="payment flex flex-col md:flex-row justify-center gap-3 mt-11">
                             <div className="supporters w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
-                                <h2 className="text-2xl font-bold my-5">Supporters</h2>
-                                <ul className="mx-5 text-lg">
+                                <h2 className="text-2xl font-bold my-5">Raised Money</h2>
+                                {/* <ul className="mx-5 text-lg">
                                     {payments.length === 0 && <li>No payments yet</li>}
                                     {payments.map((payment, index) => (
                                         <li key={index} className="my-4 flex gap-2 items-center">
@@ -253,7 +289,8 @@ const PaymentPage = ({ username }) => {
                                             </span>
                                         </li>
                                     ))}
-                                </ul>
+                                </ul> */}
+                                <h2 className='px-12 text-3xl text-bold'>{currentUser.raisedMoney} Rupees</h2>
                             </div>
 
                             <div className="makePayment w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
@@ -292,8 +329,8 @@ const PaymentPage = ({ username }) => {
                                         onClick={handlePayment}
                                         disabled={!paymentform.name || !paymentform.amount}
                                         className={`my-5 py-3 px-7 rounded-xl text-xl font-bold ${!paymentform.name || !paymentform.amount
-                                                ? "bg-gray-500 cursor-not-allowed"
-                                                : "bg-[#3730a3] hover:bg-[#3720a3]"
+                                            ? "bg-gray-500 cursor-not-allowed"
+                                            : "bg-[#3730a3] hover:bg-[#3720a3]"
                                             }`}
                                     >
                                         Pay Now

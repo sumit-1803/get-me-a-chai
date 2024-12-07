@@ -1,7 +1,19 @@
-import Link from 'next/link';
+"use client"
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import React from 'react';
 
 const AboutPage = () => {
+    const [hasToken, setHasToken] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            setHasToken(true);
+        }
+    }, []);
+
+
     return (
         <div className="animate-fadeIn flex min-h-screen justify-center flex-col items-center gap-8 text-white bg-gradient-to-br from-blue-900 via-purple-800 to-gray-900 px-4 sm:px-8">
             <div className="font-bold flex gap-2 text-4xl sm:text-5xl items-center justify-center text-center">
@@ -28,13 +40,15 @@ const AboutPage = () => {
                 </p>
             </div>
             <div>
-                <Link href="/login">
-                    <button className="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm md:text-base font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Start Supporting
-                        </span>
-                    </button>
-                </Link>
+                {!hasToken && (
+                    <Link href={"/login"}>
+                        <button className="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm md:text-base font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                Start Supporting
+                            </span>
+                        </button>
+                    </Link>
+                )}
             </div>
 
             <div className="bg-white h-1 w-1/2 md:w-1/4 opacity-10 mt-8"></div>

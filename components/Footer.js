@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto flex flex-col items-center relative z-10">
         <div className="flex justify-center gap-6 mb-4">
           {/* Social Media Icons */}
-          <Link href="github.com/sumit-1803" target="_blank" rel="noopener noreferrer">
+          <Link href="https://github.com/sumit-1803" target="_blank" rel="noopener noreferrer">
             <FaGithub size={30} className="hover:text-gray-300 transition-colors" />
           </Link>
           <Link href="https://x.com/sumit182003" target="_blank" rel="noopener noreferrer">
