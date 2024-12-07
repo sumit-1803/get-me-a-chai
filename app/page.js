@@ -97,23 +97,24 @@ export default function Home() {
 
       {/* More Content */}
       <div className="text-white container mx-auto py-32 flex flex-col">
-        <h2 className="text-3xl font-bold text-center mb-14">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-14">
           Learn More About Us
         </h2>
-        <div className="flex justify-center">
-          <div className="relative w-full max-w-xl" style={{ paddingTop: "56.25%" }}>
+        <div className="flex justify-center px-4 lg:px-0">
+          <div
+            className="relative w-full max-w-xl md:max-w-3xl lg:max-w-5xl"
+            style={{ paddingTop: "56.25%" }}
+          >
             <iframe
               src="https://www.youtube.com/embed/fjHO4fAfCf0"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              className="absolute top-0 left-0 w-full h-full"
+              className="absolute top-0 left-0 w-full h-full rounded-lg"
             ></iframe>
           </div>
         </div>
       </div>
-
-
     </>
   );
 }

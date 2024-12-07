@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentPage = ({ username }) => {
     const [paymentform, setPaymentform] = useState({});
-    const [currentUser, setcurrentUser] = useState({});
+    const [currentUser, setcurrentUser] = useState(null);
     const [payments, setpayments] = useState([]);
     const searchParams = useSearchParams();
 
@@ -182,11 +182,13 @@ const PaymentPage = ({ username }) => {
             />
 
             {/* Conditional rendering based on `currentUser.username` */}
-            {currentUser.username === undefined ? (
-                // Render the red message
+            {currentUser === null ? (
+                <div>Loading...</div> // Render a loading spinner or placeholder
+            ) : currentUser.username === undefined ? (
+                // Render 404 message
                 <div className="flex flex-col items-center mt-10 p-6 rounded-xl shadow-md">
                     <img
-                        src="https://img.freepik.com/free-vector/404-error-page-found_24908-59520.jpg?t=st=1733504404~exp=1733508004~hmac=4c421a418d8cb6672fb9fc78a0201d297253afae0e4ba14beb7deceb9ebb0605&w=740"
+                        src="https://img.freepik.com/free-vector/404-error-page-found_24908-59520.jpg"
                         alt="User not found"
                         className="w-80 h-80 mb-4"
                     />
@@ -195,7 +197,6 @@ const PaymentPage = ({ username }) => {
                         Please contact support or check your enrollment status.
                     </p>
                 </div>
-
             ) : (
                 // Render all other content if `currentUser.username` is defined
                 <>
@@ -289,12 +290,17 @@ const PaymentPage = ({ username }) => {
                                     </div>
                                     <button
                                         onClick={handlePayment}
-                                        className="my-5 py-3 px-7 bg-[#3730a3] hover:bg-[#3720a3] rounded-xl text-xl font-bold"
+                                        disabled={!paymentform.name || !paymentform.amount}
+                                        className={`my-5 py-3 px-7 rounded-xl text-xl font-bold ${!paymentform.name || !paymentform.amount
+                                                ? "bg-gray-500 cursor-not-allowed"
+                                                : "bg-[#3730a3] hover:bg-[#3720a3]"
+                                            }`}
                                     >
                                         Pay Now
                                     </button>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
