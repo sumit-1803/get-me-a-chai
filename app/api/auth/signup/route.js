@@ -1,6 +1,9 @@
 // /app/api/auth/signup/route.js
 import bcrypt from 'bcryptjs';
 import User from '../../../models/User'; // Adjust the path to your User model
+import connectDB from '../../../db/connectDB';
+
+connectDB();
 
 export async function POST(req) {
   const { email, password, name, username } = await req.json();

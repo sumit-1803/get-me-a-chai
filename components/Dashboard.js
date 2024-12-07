@@ -1,5 +1,4 @@
 "use client"
-import { useSession,signIn,signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
@@ -7,21 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { fetchuser,updateProfile } from '../app/actions/useractions';
 
 const Dashboard = () => {
-    const {data:session ,update} = useSession();
     const router = useRouter();
     const [form, setform] = useState({});
 
     useEffect(() => {
-        getData()
-        if (!session) {
+        const token = localStorage.getItem('token');
+        if (!token) {
             router.push('/login');
         }
-    }, [router, session]);
-
-    const getData = async () => {
-        let u = await fetchuser(session.user.name);
-        setform(u);
-    }
+    }, [router]);
 
     const handleChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value });
@@ -145,4 +138,4 @@ const Dashboard = () => {
     );
 };
 
-export default DashboardPage;
+export default Dashboard;

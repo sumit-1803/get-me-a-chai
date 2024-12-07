@@ -1,7 +1,9 @@
 import User from '../../models/User'; // Import the User model
+import connectDB from '../../db/connectDB';
 
 export async function GET(req) {
     try {
+      await connectDB();
       // Fetch all user data from the database
       const users = await User.find({});
   

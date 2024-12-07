@@ -234,24 +234,28 @@ const PaymentPage = ({ username }) => {
                             <p>{payments.length} Payments. {currentUser?.name} has raised ₹{payments.reduce((a, b) => a + b.amount, 0)}</p>
                         </div>
 
-                        <div className="payment flex justify-center gap-3 mt-11">
-                            <div className="supporters w-1/2 bg-slate-900 rounded-lg text-white p-10">
+                        <div className="payment flex flex-col md:flex-row justify-center gap-3 mt-11">
+                            <div className="supporters w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
                                 <h2 className="text-2xl font-bold my-5">Supporters</h2>
                                 <ul className="mx-5 text-lg">
                                     {payments.length === 0 && <li>No payments yet</li>}
                                     {payments.map((payment, index) => (
                                         <li key={index} className="my-4 flex gap-2 items-center">
-                                            <img width={33} src="https://img.icons8.com/?size=100&id=HmQQr0jYHZxu&format=png&color=000000" alt="user avatar" />
+                                            <img
+                                                width={33}
+                                                src="https://img.icons8.com/?size=100&id=HmQQr0jYHZxu&format=png&color=000000"
+                                                alt="user avatar"
+                                            />
                                             <span>
                                                 {payment.name} donated
-                                                <span className="font-bold">₹{payment.amount}</span> with a message &quot;{payment.message}&quot;
+                                                <span className="font-bold"> ₹{payment.amount}</span> with a message &quot;{payment.message}&quot;
                                             </span>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
-                            <div className="makePayment w-1/2 bg-slate-900 rounded-lg text-white p-10">
+                            <div className="makePayment w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
                                 <h2 className="text-2xl font-bold my-5">Make a Payment</h2>
                                 <div className="flex gap-2 flex-col">
                                     <div>
@@ -266,7 +270,7 @@ const PaymentPage = ({ username }) => {
                                     <div>
                                         <input
                                             onChange={handleChange}
-                                            value={paymentform.message || ''}
+                                            value={paymentform.message || ""}
                                             name="message"
                                             type="text"
                                             className="w-full p-3 rounded-lg bg-slate-800"
@@ -276,7 +280,7 @@ const PaymentPage = ({ username }) => {
                                     <div>
                                         <input
                                             onChange={handleChange}
-                                            value={paymentform.amount || ''}
+                                            value={paymentform.amount || ""}
                                             name="amount"
                                             type="text"
                                             className="w-full p-3 rounded-lg bg-slate-800"
@@ -292,6 +296,7 @@ const PaymentPage = ({ username }) => {
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </>
             )}
