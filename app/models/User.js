@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     password:{type:String , required:true},
     name:{type:String },
     username:{type:String },
-    profilePicture:{type:String},
+    profilePicture:{type:String , default:"https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"},
     coverPicture:{type:String},
     razorpayId: { type: String },
     razorpaySecret: { type: String },

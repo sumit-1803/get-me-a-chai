@@ -8,10 +8,13 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const res = await fetch('/api/auth/login', {
       method: 'POST',
@@ -22,6 +25,8 @@ const Login = () => {
     });
 
     const data = await res.json();
+
+    setLoading(false);
 
     if (res.ok) {
       // Save the JWT token to localStorage or cookies
@@ -75,8 +80,13 @@ const Login = () => {
           <button
             type="submit"
             className="w-full bg-[#3730a3] text-white py-3 rounded-md text-lg font-medium hover:bg-[#3737a8]  transition duration-200"
+            disabled={loading}
           >
-            Login
+            {loading ? (
+              <span className="animate-spin">Loading...</span> // Add a loading spinner or text
+            ) : (
+              'Login'
+            )}
           </button>
         </form>
 

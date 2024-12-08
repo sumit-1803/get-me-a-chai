@@ -1,9 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("");
+  const [redirectCountdown, setRedirectCountdown] = useState(0);
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -28,6 +31,7 @@ const Contact = () => {
       if (response.ok) {
         setStatus("Message sent successfully!");
         setFormData({ name: "", email: "", message: "" });
+        setRedirectCountdown(5); // Start 5-second countdown
       } else {
         setStatus("Something went wrong, please try again.");
       }
@@ -35,6 +39,18 @@ const Contact = () => {
       setStatus("Error sending message.");
     }
   };
+
+  useEffect(() => {
+    if (redirectCountdown > 0) {
+      const timer = setInterval(() => {
+        setRedirectCountdown((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (redirectCountdown === 0 && status === "Message sent successfully!") {
+      router.push("/"); // Redirect after countdown
+    }
+  }, [redirectCountdown, status, router]);
 
   return (
     <div className="bg-black py-12 px-4 sm:px-6 lg:px-8">
@@ -90,6 +106,12 @@ const Contact = () => {
             {status || "Send Message"}
           </button>
         </form>
+
+        {redirectCountdown > 0 && (
+          <p className="mt-4 text-center text-green-500 font-semibold">
+            Redirecting to home in {redirectCountdown} second{redirectCountdown > 1 ? "s" : ""}...
+          </p>
+        )}
       </div>
     </div>
   );

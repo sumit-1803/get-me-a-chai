@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 const PrivacyPolicy = () => {
   return (
-    <div className="bg-black py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div className="bg-black h-screen w-screen flex items-center justify-center">
+      <div className="max-w-3xl w-[85%] sm:w-[50%] h-[90vh] overflow-y-auto bg-white p-4 sm:p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-gray-900 mb-6">Privacy Policy</h1>
         <p className="text-lg text-gray-700 mb-6">
           DevSponsor respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.
@@ -45,7 +45,7 @@ const PrivacyPolicy = () => {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
-export default PrivacyPolicy
+export default PrivacyPolicy;

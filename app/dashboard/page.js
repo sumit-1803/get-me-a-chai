@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { toast , ToastContainer } from 'react-toastify'; // Import toast from react-toastify
+import { toast, ToastContainer } from 'react-toastify'; // Import toast from react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
 
 
@@ -65,7 +65,7 @@ const Dashboard = () => {
   // Handle form submission
   const handleSave = async (e) => {
     e.preventDefault();
-    
+
     // Get the JWT token from localStorage or cookies
     const token = localStorage.getItem('token');  // Or from cookies: document.cookie
 
@@ -98,7 +98,11 @@ const Dashboard = () => {
 
   return (
     <div className="animate-fadeIn container mx-auto py-5">
-      <h1 className="text-center my-5 text-3xl font-bold">Welcome to Your Dashboard!</h1>
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="text-center my-5 text-3xl font-bold">Welcome to your Dashboard</h1>
+        <p className="text-center text-white">Fill the mandatory fields to start your Profile</p>
+      </div>
+
 
       <form className="max-w-2xl mx-auto" onSubmit={handleSave}>
         <div className="my-2">
@@ -123,7 +127,7 @@ const Dashboard = () => {
           />
         </div>
         <div className="my-2">
-          <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+          <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Username <span className='text-red-700'>*</span></label>
           <input
             type="text"
             id="username"

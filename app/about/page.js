@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import React from 'react';
+import React from "react";
 
 const AboutPage = () => {
     const [hasToken, setHasToken] = useState(false);
@@ -13,9 +13,30 @@ const AboutPage = () => {
         }
     }, []);
 
-
     return (
-        <div className="animate-fadeIn flex min-h-screen justify-center flex-col items-center gap-8 text-white bg-gradient-to-br from-blue-900 via-purple-800 to-gray-900 px-4 sm:px-8">
+        <div className="animate-fadeIn flex min-h-screen justify-center flex-col items-center gap-8 text-white bg-gradient-to-br from-blue-900 via-purple-800 to-gray-900 px-4 sm:px-8 relative">
+            {/* Back Button */}
+            <Link href="/">
+                <button className="absolute top-4 left-4 flex items-center text-white bg-transparent hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-lg p-2">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        stroke="currentColor"
+                        className="w-5 h-5 mr-2"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 19l-7-7 7-7"
+                        />
+                    </svg>
+                    Back
+                </button>
+            </Link>
+
+            {/* Content */}
             <div className="font-bold flex gap-2 text-4xl sm:text-5xl items-center justify-center text-center">
                 <span>
                     <img
@@ -39,6 +60,7 @@ const AboutPage = () => {
                     Join us in celebrating creativity and innovation. Let your fans fuel your dreams!
                 </p>
             </div>
+
             <div>
                 {!hasToken && (
                     <Link href={"/login"}>
@@ -53,7 +75,6 @@ const AboutPage = () => {
 
             <div className="bg-white h-1 w-1/2 md:w-1/4 opacity-10 mt-8"></div>
         </div>
-
     );
 };
 

@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dashboard, Logout, Man } from "@mui/icons-material";
+import { Dashboard, Logout, Man, Delete } from "@mui/icons-material";
+import { toast, ToastContainer } from "react-toastify";
+import jwt from "jsonwebtoken";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,6 +35,50 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
+  const handleDeleteUser = async () => {
+    const token = localStorage.getItem("token");
+    let email = ""; 
+  
+    if (token) {
+      try {
+        const decoded = jwt.decode(token);
+        if (decoded && decoded.email) {
+          email = decoded.email; 
+        }
+      } catch (error) {
+        console.error("Error deleting user token not decoded properly:", error);
+        return toast.error("Server error");
+      }
+    }
+  
+    if (!email) {
+      return toast.error("No email found in the token");
+    }
+  
+    // Now that email is available, make the API call to delete the user
+    const response = await fetch('/api/auth/signup', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),  
+    });
+  
+    const result = await response.json();
+  
+    if (response.ok) {
+      toast.success(`User ${email} deleted successfully`);
+      // Sign out the user after deleting the account
+      handleSignOut();
+      // Delete token from local storage
+      localStorage.removeItem("token");
+    } else {
+      toast.error(result.message);
+    }
+  };
+  
+
+
   return (
     <nav className="bg-indigo-800 z-50 fixed top-0 w-full text-white flex justify-between px-4 h-16 items-center">
       <div>
@@ -44,7 +91,7 @@ const Navbar = () => {
           <span className="ml-2">DevSponsor</span>
         </Link>
       </div>
-      <div className="relative">
+      <div className="absolute right-0 ">
         {isAuthenticated ? (
           <>
             <button
@@ -55,9 +102,8 @@ const Navbar = () => {
             >
               Hello, User
               <svg
-                className={`w-2.5 h-2.5 ms-3 transition-transform duration-300 ${
-                  showDropdown ? "rotate-180" : "rotate-0"
-                }`}
+                className={`w-2.5 h-2.5 ms-3 transition-transform duration-300 ${showDropdown ? "rotate-180" : "rotate-0"
+                  }`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -74,12 +120,11 @@ const Navbar = () => {
             </button>
             <div
               id="dropdown"
-              className={`z-10 ${
-                showDropdown ? "" : "hidden"
-              } bg-white animate-fadeIn divide-y mt-4 absolute divide-gray-100 rounded-lg shadow w-44`}
+              className={`z-10 ${showDropdown ? "" : "hidden"
+                } bg-white animate-fadeIn divide-y mt-4 absolute divide-gray-100 rounded-lg shadow w-44 right-2`}
             >
               <ul
-                className="py-2 text-sm text-gray-700"
+                className=" text-sm text-gray-700"
                 aria-labelledby="dropdownDefaultButton"
               >
                 <li>
@@ -114,6 +159,16 @@ const Navbar = () => {
                     Sign out
                   </button>
                 </li>
+                {/* New Delete User Button */}
+                <li>
+                  <button
+                    onClick={handleDeleteUser}
+                    className="px-4 py-2 text-red-600 hover:bg-red-500 hover:text-white transition-colors duration-300 w-full text-left rounded-md flex items-center"
+                  >
+                    <Delete className="mr-2" />
+                    Delete Account
+                  </button>
+                </li>
               </ul>
             </div>
           </>
@@ -129,6 +184,7 @@ const Navbar = () => {
           )
         )}
       </div>
+      <ToastContainer />
     </nav>
   );
 };
