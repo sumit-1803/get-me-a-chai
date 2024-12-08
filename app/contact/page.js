@@ -53,12 +53,12 @@ const Contact = () => {
   }, [redirectCountdown, status, router]);
 
   return (
-    <div className="bg-black py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-2xl border border-gray-300">
-        <center className="text-3xl font-semibold text-white bg-[#3730a3] rounded-md p-4 mb-6">Contact Us</center>
+    <div className="bg-black animate-fadeIn py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-lg animate-fadeIn mx-auto bg-white p-8 rounded-lg shadow-2xl border border-gray-300">
+        <center className="text-3xl font-semibold text-white bg-[#3730a3] rounded-md animate-fadeIn p-4 mb-6">Contact Us</center>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <label htmlFor="name" className="block text-lg font-medium text-gray-900">Name</label>
+            <label htmlFor="name" className="block animate-fadeIn text-lg font-medium text-gray-900">Name</label>
             <input
               type="text"
               id="name"

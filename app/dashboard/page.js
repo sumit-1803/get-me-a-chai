@@ -139,15 +139,15 @@ const Dashboard = () => {
         </div>
 
         {/* Profile Picture Section with Link or File Upload */}
-        <div className="my-4 relative">
+        <div className="my-4 relative animate-fadeIn">
           <label
             htmlFor="profilePicture"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white flex items-center"
+            className=" mb-2 text-sm font-medium text-gray-900 dark:text-white flex items-center"
           >
             Profile Picture
             <button
               type="button"
-              className="ml-2 text-gray-500 hover:text-gray-700"
+              className="ml-2 animate-fadeIn text-gray-500 hover:text-gray-700"
               onClick={() => setShowTooltip(!showTooltip)} // Toggle tooltip on click
             >
               <InfoOutlinedIcon fontSize="small" />
@@ -157,7 +157,7 @@ const Dashboard = () => {
           {/* Tooltip */}
           {showTooltip && (
             <div
-              className="absolute mt-2 p-3 text-sm text-white bg-gray-800 rounded-lg shadow-lg w-64 z-10"
+              className="absolute animate-fadeIn mt-2 p-3 text-sm text-white bg-gray-800 rounded-lg shadow-lg w-64 z-10"
               onMouseLeave={() => setShowTooltip(false)} // Hide tooltip on mouse leave
             >
               <p>

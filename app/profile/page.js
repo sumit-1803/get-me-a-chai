@@ -55,7 +55,7 @@ const Username = () => {
 
   // Show loading state
   if (isLoading) {
-    return <center className='flex my-[40%] mx-[50%]'>Loading...</center>;
+    return <div className='flex justify-center items-center h-screen'><span>Loading...</span></div>;
   }
 
   // Show error if any occurred

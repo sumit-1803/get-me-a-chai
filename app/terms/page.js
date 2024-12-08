@@ -2,11 +2,11 @@ import React from "react";
 
 const Terms = () => {
   return (
-    <div className="bg-black h-screen w-screen flex items-center justify-center ">
-      <div className="max-w-3xl w-[85%]  sm:w-[50%]  h-[90vh] overflow-y-auto bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+    <div className="bg-black animate-fadeIn h-screen w-screen flex items-center justify-center ">
+      <div className="max-w-3xl w-[85%] animate-fadeIn  sm:w-[50%]  h-[90vh] overflow-y-auto bg-white p-4 sm:p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-gray-900 mb-6">Terms and Conditions</h1>
 
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
+        <h2 className="text-2xl animate-fadeIn font-semibold text-gray-900 mb-4">1. Introduction</h2>
         <p className="text-lg text-gray-700 mb-6">
           Welcome to DevSponsor! These Terms and Conditions govern your use of the platform. By accessing or using the platform, you agree to comply with and be bound by these terms. If you do not agree to these terms, please do not use the platform.
         </p>

@@ -220,7 +220,7 @@ const PaymentPage = ({ username }) => {
 
             {/* Conditional rendering based on `currentUser.username` */}
             {loading ? (
-                <div>Loading...</div> // Show loading until the data is fetched or errors occur
+                <div className='flex justify-center items-center h-screen'><span>Loading...</span></div> 
             ) : currentUser === undefined ? (
                 <div className="flex flex-col items-center mt-10 p-6 rounded-xl shadow-md">
                     <img
