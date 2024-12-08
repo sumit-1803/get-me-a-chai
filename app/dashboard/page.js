@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { toast, ToastContainer } from 'react-toastify'; // Import toast from react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
 
-
 const Dashboard = () => {
+  const [showTooltip, setShowTooltip] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,21 +13,20 @@ const Dashboard = () => {
     profilePicture: '',
     coverPicture: '',
     razorpayId: '',
-    razorpaySecret: ''
+    razorpaySecret: '',
+    uploadProfile: null
   });
 
   // Fetch existing data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
-      // Get the JWT token from localStorage or cookies
-      const token = localStorage.getItem('token');  // Or from cookies: document.cookie
+      const token = localStorage.getItem('token');
 
       if (!token) {
         alert('You need to log in first.');
         return;
       }
 
-      // Make a GET request to fetch existing dashboard data
       const response = await fetch('/api/dashboard', {
         method: 'GET',
         headers: {
@@ -51,7 +51,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this runs only once on component mount
+  }, []);
 
   // Update form state when input changes
   const handleInputChange = (e) => {
@@ -96,13 +96,14 @@ const Dashboard = () => {
     }
   };
 
+
+
   return (
     <div className="animate-fadeIn container mx-auto py-5">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-center my-5 text-3xl font-bold">Welcome to your Dashboard</h1>
         <p className="text-center text-white">Fill the mandatory fields to start your Profile</p>
       </div>
-
 
       <form className="max-w-2xl mx-auto" onSubmit={handleSave}>
         <div className="my-2">
@@ -136,15 +137,66 @@ const Dashboard = () => {
             className="block w-full px-3 py-2 text-gray-900 bg-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
-        <div className="my-2">
-          <label htmlFor="profilePicture" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Picture</label>
-          <input
-            type="text"
-            id="profilePicture"
-            value={formData.profilePicture}
-            onChange={handleInputChange}
-            className="block w-full px-3 py-2 text-gray-900 bg-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
+
+        {/* Profile Picture Section with Link or File Upload */}
+        <div className="my-4 relative">
+          <label
+            htmlFor="profilePicture"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white flex items-center"
+          >
+            Profile Picture
+            <button
+              type="button"
+              className="ml-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowTooltip(!showTooltip)} // Toggle tooltip on click
+            >
+              <InfoOutlinedIcon fontSize="small" />
+            </button>
+          </label>
+
+          {/* Tooltip */}
+          {showTooltip && (
+            <div
+              className="absolute mt-2 p-3 text-sm text-white bg-gray-800 rounded-lg shadow-lg w-64 z-10"
+              onMouseLeave={() => setShowTooltip(false)} // Hide tooltip on mouse leave
+            >
+              <p>
+                Paste an image URL to upload your profile picture.
+              </p>
+              <button
+                className="mt-2 px-2 py-1 bg-indigo-500 hover:bg-indigo-600 rounded text-white text-xs"
+                onClick={() => setShowTooltip(false)}
+              >
+                Got it!
+              </button>
+            </div>
+          )}
+          <div className="flex items-center space-x-4">
+            {/* URL Input */}
+            <input
+              type="text"
+              id="profilePicture"
+              value={formData.profilePicture}
+              onChange={handleInputChange}
+              placeholder="Enter image URL"
+              className="block w-2/3 px-3 py-2 text-gray-900 bg-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+            <span className="text-sm font-medium text-gray-600">OR</span>
+            {/* Disabled File Input with Overlay */}
+            <div className="relative w-full sm:w-1/3">
+              <input
+                type="file"
+                accept="image/*"
+                disabled
+                className="block w-full h-full px-3 py-2 text-gray-400 bg-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm cursor-not-allowed"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 bg-opacity-70 rounded-md">
+                <span className="text-gray-500 text-xs sm:text-sm font-semibold">
+                  Coming Soon
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="my-2">
           <label htmlFor="coverPicture" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cover Picture</label>
@@ -156,6 +208,8 @@ const Dashboard = () => {
             className="block w-full px-3 py-2 text-gray-900 bg-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
+
+
         <div className="my-2">
           <label htmlFor="razorpayId" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Razorpay ID</label>
           <input
@@ -180,6 +234,7 @@ const Dashboard = () => {
           <button type="submit" className="block w-full px-3 py-2 text-white bg-[#3730a3] mt-8 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Save</button>
         </div>
       </form>
+
       <ToastContainer />
     </div>
   );
