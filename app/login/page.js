@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast , ToastContainer } from 'react-toastify'; // Import toast from react-toastify
+import { toast, ToastContainer } from 'react-toastify'; // Import toast from react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
 
 const Login = () => {
@@ -29,15 +29,21 @@ const Login = () => {
     setLoading(false);
 
     if (res.ok) {
-      // Save the JWT token to localStorage or cookies
       localStorage.setItem('token', data.token);
-      toast.success('Login successful!'); // Show success toast
-      router.push('/dashboard'); // Redirect to dashboard after successful login
-      window.location.reload();
+      
+      toast.success('Login successful!');
+
+      router.push('/dashboard');
+      setTimeout(() => {
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 500); // 500ms delay to ensure proper routing
+      }, 200); // 1-second delay before redirecting
     } else {
       setError(data.message);
       toast.error(`Error: ${data.message}`); // Show error toast
     }
+
   };
 
   const handleRedirectToSignup = () => {
