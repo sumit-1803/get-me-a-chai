@@ -51,7 +51,7 @@ const AllUsers = () => {
                   alt={user.name}
                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 object-cover"
                 />
-                <h2 className="text-xl font-semibold text-center">{user.name}</h2>
+                <h2 className="text-xl font-semibold text-center">{user.username}</h2>
                 <p className="text-center text-sm">{user.email}</p>
               </div>
             </Link>

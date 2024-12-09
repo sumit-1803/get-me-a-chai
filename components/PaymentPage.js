@@ -39,8 +39,36 @@ const PaymentPage = ({ username }) => {
     }, [searchParams]);
 
     const handleChange = (e) => {
-        setPaymentform({ ...paymentform, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+    
+        if (name === "amount") {
+            const numericValue = parseFloat(value);
+    
+            // Allow empty value for clearing the field
+            if (value === "") {
+                setPaymentform({ ...paymentform, [name]: value });
+                return;
+            }
+    
+            // Validate amount to be a positive number
+            if (isNaN(numericValue) || numericValue <= 0) {
+                toast.error("Please enter a valid positive amount!", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                return;
+            }
+        }
+    
+        setPaymentform({ ...paymentform, [name]: value });
     };
+    
 
     const getData = async () => {
         try {
@@ -240,7 +268,7 @@ const PaymentPage = ({ username }) => {
                         <img
                             className="object-cover max-h-64 w-full shadow-blue-700 shadow-sm"
                             src={currentUser?.coverPicture}
-                            alt="Cover Image"
+                            alt=""
                         />
                         <div className="absolute -bottom-20 right-[46%] overflow-hidden border-white border-2 rounded-full size-32">
                             <img
@@ -248,7 +276,7 @@ const PaymentPage = ({ username }) => {
                                 width={128}
                                 height={128}
                                 src={currentUser?.profilePicture || 'default-profile-pic.jpg'}
-                                alt="Profile"
+                                alt=""
                             />
                         </div>
                     </div>
@@ -301,7 +329,7 @@ const PaymentPage = ({ username }) => {
                                             onChange={handleChange}
                                             name="name"
                                             type="text"
-                                            className="w-full p-3 rounded-lg bg-slate-800"
+                                            className="w-full p-3 rounded-lg bg-slate-600 "
                                             placeholder="Enter Name"
                                         />
                                     </div>
@@ -311,7 +339,7 @@ const PaymentPage = ({ username }) => {
                                             value={paymentform.message || ""}
                                             name="message"
                                             type="text"
-                                            className="w-full p-3 rounded-lg bg-slate-800"
+                                            className="w-full p-3 rounded-lg bg-slate-600 "
                                             placeholder="Enter Message"
                                         />
                                     </div>
@@ -321,7 +349,7 @@ const PaymentPage = ({ username }) => {
                                             value={paymentform.amount || ""}
                                             name="amount"
                                             type="text"
-                                            className="w-full p-3 rounded-lg bg-slate-800"
+                                            className="w-full p-3 rounded-lg bg-slate-600 "
                                             placeholder="Enter Amount"
                                         />
                                     </div>

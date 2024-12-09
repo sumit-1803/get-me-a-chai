@@ -42,24 +42,25 @@ const AboutPage = () => {
                     <img
                         className="invertImg w-16 sm:w-20 md:w-24"
                         src="https://media2.giphy.com/media/KanTM1jNrX7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
-                        alt="DevSponsor Animation"
+                        alt="DevoSponsor Animation"
                     />
                 </span>
                 About
-                DevSponsor
+                DevoSponsor
             </div>
 
             <div className="text-center max-w-3xl">
                 <p className="text-lg sm:text-xl md:text-2xl font-medium leading-relaxed">
-                    Welcome to <span className="font-extrabold text-purple-400">DevSponsor</span>, the ultimate crowdfunding platform designed for developers!
+                    Welcome to <span className="font-extrabold text-purple-400">DevoSponsor</span>, a crowdfunding platform for everyone!
                 </p>
                 <p className="text-lg sm:text-xl md:text-2xl leading-relaxed mt-4">
-                    At <span className="font-semibold text-blue-400">DevSponsor</span>, we aim to bridge the gap between creators and their community by enabling seamless support from fans and followers.
+                    <span className="font-semibold text-blue-400">DevoSponsor</span> connects people with their supporters, making it easy for anyone to fund their passions.
                 </p>
                 <p className="text-lg sm:text-xl md:text-2xl leading-relaxed mt-4">
-                    Join us in celebrating creativity and innovation. Let your fans fuel your dreams!
+                    Turn your ideas into reality with the help of your community!
                 </p>
             </div>
+
 
             <div>
                 {!hasToken && (

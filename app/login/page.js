@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify'; // Import toast from react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (e) => {
@@ -70,18 +72,30 @@ const Login = () => {
               className="w-full p-3 text-black border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <label htmlFor="password" className="block text-sm font-medium text-[#fff]">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full p-3 text-black border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)} // Toggle showPassword state
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 flex items-center"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <VisibilityOff style={{ color: 'black' }} />
+              ) : (
+                <Visibility style={{ color: 'black' }} />
+              )}
+            </button>
           </div>
           <button
             type="submit"

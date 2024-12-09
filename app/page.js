@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <div className="animate-fadeIn flex min-h-screen justify-center flex-col items-center gap-6 text-white px-4 md:px-10">
         <div className="font-bold flex gap-2 text-4xl md:text-5xl items-center justify-center text-center">
-          DevSponsor
+          DevoSponsor
           <span>
             <img
               className="invertImg w-12 md:w-20"
@@ -26,7 +26,7 @@ export default function Home() {
           </span>
         </div>
         <p className="text-center text-sm md:text-base lg:text-lg">
-          A Crowd Funding Platform for Developers. Get Funded by Your Fans and Followers. Start Now!
+          A Crowd Funding Platform. <br/> Get Funded by Your Followers. Start Now!
         </p>
         <div className="flex flex-wrap justify-center gap-4 mt-4">
         {!hasToken && (
@@ -66,7 +66,7 @@ export default function Home() {
       {/* Existing Content */}
       <div className="animate-fadeIn text-white container mx-auto py-12 sm:py-16 md:py-32">
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-14">
-          Your Fans Can sponsor you on DevSponsor
+          Your Fans Can sponsor you on DevoSponsor
         </h2>
 
         <div className="flex flex-wrap gap-5 justify-center sm:justify-around">

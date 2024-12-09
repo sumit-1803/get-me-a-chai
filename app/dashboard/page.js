@@ -56,6 +56,15 @@ const Dashboard = () => {
   // Update form state when input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
+
+    // Validate and set username
+    if (id === "username") {
+      if (value.includes(" ")) {
+        toast.error("Username cannot contain spaces , special characters or emojis.");
+        return; // Prevent further updates if invalid
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [id]: value
@@ -65,36 +74,45 @@ const Dashboard = () => {
   // Handle form submission
   const handleSave = async (e) => {
     e.preventDefault();
-
-    // Get the JWT token from localStorage or cookies
-    const token = localStorage.getItem('token');  // Or from cookies: document.cookie
-
+  
+    // Trim all form fields before submission
+    const trimmedData = {
+      ...formData,
+      username: formData.username.trim(),
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      profilePicture: formData.profilePicture.trim(),
+      coverPicture: formData.coverPicture.trim(),
+      razorpayId: formData.razorpayId.trim(),
+      razorpaySecret: formData.razorpaySecret.trim(),
+    };
+  
+    const token = localStorage.getItem("token");
+  
     if (!token) {
-      alert('You need to log in first.');
+      alert("You need to log in first.");
       return;
     }
-
+  
     // POST request to save dashboard details
-    const response = await fetch('/api/dashboard', {
-      method: 'POST',
+    const response = await fetch("/api/dashboard", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        ...formData,
-      }),
+      body: JSON.stringify(trimmedData),
     });
-
+  
     const result = await response.json();
-
+  
     if (response.ok) {
-      // Display a toast notification
-      toast.success('Details saved successfully');
+      toast.success("Details saved successfully");
     } else {
-      alert(result.message || 'Error saving details');
+      alert(result.message || "Error saving details");
     }
   };
+    
 
 
 

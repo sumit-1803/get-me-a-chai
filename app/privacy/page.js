@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
       <div className="max-w-3xl w-[85%] sm:w-[50%] h-[90vh] overflow-y-auto bg-white p-4 sm:p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-gray-900 mb-6">Privacy Policy</h1>
         <p className="text-lg text-gray-700 mb-6">
-          DevSponsor respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.
+          DevoSponsor respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.
         </p>
 
         <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Information We Collect</h2>
@@ -41,7 +41,7 @@ const PrivacyPolicy = () => {
 
         <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Contact Us</h2>
         <p className="text-lg text-gray-700 mb-6">
-          If you have any questions about this Privacy Policy, please reach out to us at privacy@devsponsor.com.
+          If you have any questions about this Privacy Policy, please reach out to us at privacy@DevoSponsor.com.
         </p>
       </div>
     </div>
