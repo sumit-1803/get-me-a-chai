@@ -111,7 +111,7 @@ const Navbar = () => {
             width={50}
             alt="DevSponsor Logo"
           />
-          <span className="ml-2 text-sm sm:text-base md:text-lg">DevSponsor</span>
+          <span className="ml-2 text-sm sm:text-base md:text-lg">Devo<span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500">Sponsor</span></span>
         </Link>
       </div>
 

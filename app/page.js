@@ -8,51 +8,60 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setHasToken(true); 
+      setHasToken(true);
     }
   }, []);
 
   return (
     <>
-      <div className="animate-fadeIn flex min-h-screen justify-center flex-col items-center gap-6 text-white px-4 md:px-10">
-        <div className="font-bold flex gap-2 text-4xl md:text-5xl items-center justify-center text-center">
-          DevoSponsor
-          <span>
-            <img
-              className="invertImg w-12 md:w-20"
-              src="https://media2.giphy.com/media/KanTM1jNrX7TgQ2d4X/giphy.gif?cid=6c09b952pfgv0n376m7hxzqa4tayg0xkrdk8zgwa1ad4unxp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
-              alt="not loading"
-            />
-          </span>
-        </div>
-        <p className="text-center text-sm md:text-base lg:text-lg">
-          A Crowd Funding Platform. <br/> Get Funded by Your Followers. Start Now!
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 mt-4">
-        {!hasToken && (
-          <Link href={"/signup"}>
-            <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm md:text-base font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-              <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                Start Here
-              </span>
-            </button>
-          </Link>
-        )}
-          <Link href={"/about"}>
-            <button
-              type="button"
-              className="text-black bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm md:text-base px-5 py-2.5 text-center border-2 border-gray-800"
+      <div className="flex animate-fadeIn items-center justify-center h-screen px-4  lg:pt-12">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-heading">
+            Empowering Innovation Through <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500">Community Funding</span>
+          </h1>
+          <p className="text-xl text-neutral-300 mb-8">
+            Build your personal brand and connect with a global audience. Share your journey, gain support, and earn from your community on Devo<span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500">Sponsor</span>.
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href='/signup' className="px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg text-lg font-semibold transition-colors">
+              Launch Your Profile
+            </Link>
+            <Link
+              href='/allUsers'
+              className="px-8 py-3 text-white rounded-xl text-lg font-semibold transition-colors border-2  border-transparent hover:text-white"
+              style={{ borderImage: 'linear-gradient(to right, #6a0dad, #1e40af) 1' }}
             >
-              Read More...
-            </button>
-          </Link>
+              Explore Users
+            </Link>
+          </div>
+
+          <div className="hidden lg:grid mt-16  grid-cols-2 md:grid-cols-4 gap-8 text-center mb-16">
+            <div className="p-4">
+              <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500 mb-2">$10M+</h3>
+              <p className="text-neutral-400">Total Funded</p>
+            </div>
+            <div className="p-4">
+              <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500 mb-2">100+</h3>
+              <p className="text-neutral-400">Projects Launched</p>
+            </div>
+            <div className="p-4">
+              <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500 mb-2">50K+</h3>
+              <p className="text-neutral-400">Global Backers</p>
+            </div>
+            <div className="p-4">
+              <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500 mb-2">95%</h3>
+              <p className="text-neutral-400">Success Rate</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="bg-white h-1 opacity-10"></div>
+      <div className="bg-white h-1 opacity-10 mt-16"></div>
+
 
       {/* New Section for All Users */}
-      <div className="text-center py-32  text-white">
+      {/* <div className="text-center py-32  text-white">
         <h2 className="text-3xl font-bold mb-8">Meet All Our Users</h2>
         <p className="mb-4">Explore our community of passionate developers and see how they are getting funded by their fans.</p>
         <Link href="/allUsers">
@@ -61,7 +70,7 @@ export default function Home() {
           </button>
         </Link>
       </div>
-      <div className="bg-white h-1 opacity-10"></div>
+      <div className="bg-white h-1 opacity-10"></div> */}
 
       {/* Existing Content */}
       <div className="animate-fadeIn text-white container mx-auto py-12 sm:py-16 md:py-32">
@@ -106,7 +115,7 @@ export default function Home() {
       </div>
 
 
-      <div className="bg-white h-1 opacity-10"></div>
+      <div className="bg-white h-1 opacity-10 mt-12"></div>
 
       {/* More Content */}
       <div className="text-white container mx-auto py-32 flex flex-col">
