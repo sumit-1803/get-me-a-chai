@@ -25,6 +25,7 @@
     "mongoose": "^8.8.2",
     "next": "^15.0.3",
     "next-auth": "^4.24.10",
+    "next-sitemap": "^4.2.3",
     "nodemailer": "^6.9.16",
     "razorpay": "^2.9.5",
     "react": "^18",

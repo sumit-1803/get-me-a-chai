@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://dev.sumitkumar.live
+
+# Sitemaps
+Sitemap: https://dev.sumitkumar.live/sitemap.xml
